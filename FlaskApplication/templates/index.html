@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title%} Home {% endblock %}
+
+
+{% block body%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Customers List<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal">
+                Add Customers</button></h2>
+
+            {% with messages=get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages%}
+            <div class="alert alert-success alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="True">x</span>
+                </button>
+                {{message}}
+            </div>
+
+            {% endfor %}
+
+            {% endif %}
+
+            {% endwith %}
+
+            <table class="table table-striped">
+                <tr>
+                    <th>CustomerID</th>
+                    <th>CompanyName</th>
+                    <th>ContactName</th>
+                    <th>ContactTitle</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Region</th>
+                    <th>PostalCode</th>
+                    <th>Country</th>
+                    <th>Phone</th>
+                    <th>Fax</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for rows in customers %}
+                <tr>
+                    <td>{{rows.CustomerID}}</td>
+                    <td>{{rows.CompanyName}}</td>
+                    <td>{{rows.ContactName}}</td>
+                    <td>{{rows.ContactTitle}}</td>
+                    <td>{{rows.Address}}</td>
+                    <td>{{rows.City}}</td>
+                    <td>{{rows.Region}}</td>
+                    <td>{{rows.PostalCode}}</td>
+                    <td>{{rows.Country}}</td>
+                    <td>{{rows.Phone}}</td>
+                    <td>{{rows.Fax}}</td>
+
+
+                    <td>
+                        <a href="/update/{{rows.CustomerID}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{rows.CustomerID}}">Edit</a>
+
+                    </td>
+                </tr>
+                <div id="modaledit{{rows.CustomerID}}" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please Update Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url_for('update')}}" method="POST">
+                        <div class="form-group">
+                            <label>CustomerID:</label>
+                            <input type="text" class="form-control" name="CustomerID" value="{{rows.CustomerID}}">
+                        </div>
+                        <div class="form-group">
+                            <label>CompanyName:</label>
+                            <input type="text" class="form-control" name="CompanyName" value="{{rows.CompanyName}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ContactName:</label>
+                            <input type="text" class="form-control" name="ContactName" value="{{rows.ContactName}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ContactTitle:</label>
+                            <input type="text" class="form-control" name="ContactTitle" value="{{rows.ContactTitle}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" name="Address" value="{{rows.Address}}">
+                        </div>
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" class="form-control" name="City" value="{{rows.City}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Region:</label>
+                            <input type="text" class="form-control" name="Region" value="{{rows.Region}}">
+                        </div>
+                        <div class="form-group">
+                            <label>PostalCode:</label>
+                            <input type="text" class="form-control" name="PostalCode" value="{{rows.PostalCode}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Country:</label>
+                            <input type="text" class="form-control" name="Country" value="{{rows.Country}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone:</label>
+                            <input type="text" class="form-control" name="Phone" value="{{rows.Phone}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Fax:</label>
+                            <input type="text" class="form-control" name="Fax" value="{{rows.Fax}}">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Update Data</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please Insert Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url_for('insert')}}" method="POST">
+                        <div class="form-group">
+                            <label>CustomerID:</label>
+                            <input type="text" class="form-control" name="CustomerID" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>CompanyName:</label>
+                            <input type="text" class="form-control" name="CompanyName" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>ContactName:</label>
+                            <input type="text" class="form-control" name="ContactName" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>ContactTitle:</label>
+                            <input type="text" class="form-control" name="ContactTitle" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" name="Address" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" class="form-control" name="City" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Region:</label>
+                            <input type="text" class="form-control" name="Region" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>PostalCode:</label>
+                            <input type="text" class="form-control" name="PostalCode" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Country:</label>
+                            <input type="text" class="form-control" name="Country" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone:</label>
+                            <input type="text" class="form-control" name="Phone" required="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Fax:</label>
+                            <input type="text" class="form-control" name="Fax" required="1">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Add Data</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

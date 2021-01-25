@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+
+
+{% block title%} Flask API {% endblock %}
+
+
+{% block body%}
+<nav class="navbar navbar-inverse ">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="{{url_for('index')}}">Customers</a></li>
+      <li class="active"><a href="{{url_for('order')}}">Orders</a></li>
+      <li class="active"><a href="{{url_for('product')}}">Products</a></li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}

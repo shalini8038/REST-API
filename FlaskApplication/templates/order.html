@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title%} Home {% endblock %}
+
+
+{% block body%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Orders List<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal">
+                Add Orders</button></h2>
+
+            {% with messages=get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages%}
+            <div class="alert alert-success alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="True">x</span>
+                </button>
+                {{message}}
+            </div>
+
+            {% endfor %}
+
+            {% endif %}
+
+            {% endwith %}
+
+            <table class="table table-striped">
+                <tr>
+                    <th>OrderID</th>
+                    <th>CustomerID</th>
+                    <th>EmployeeID</th>
+                    <th>OrderDate</th>
+                    <th>RequiredDate</th>
+                    <th>ShippedDate</th>
+                    <th>ShipVia</th>
+                    <th>Freight</th>
+                    <th>ShipName</th>
+                    <th>ShipAddress</th>
+                    <th>ShipCity</th>
+                    <th>ShipRegion</th>
+                    <th>ShipPostalCode</th>
+                    <th>ShipCountry</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for rows in orders%}
+                <tr>
+                    <td>{{rows.OrderID}}</td>
+                    <td>{{rows.CustomerId}}</td>
+                    <td>{{rows.EmployeeID}}</td>
+                    <td>{{rows.OrderDate}}</td>
+                    <td>{{rows.RequiredDate}}</td>
+                    <td>{{rows.ShippedDate}}</td>
+                    <td>{{rows.ShipVia}}</td>
+                    <td>{{rows.Freight}}</td>
+                    <td>{{rows.ShipName}}</td>
+                    <td>{{rows.ShipAddress}}</td>
+                    <td>{{rows.ShipCity}}</td>
+                    <td>{{rows.ShipRegion}}</td>
+                    <td>{{rows.ShipPostalCode}}</td>
+                    <td>{{rows.ShipCountry}}</td>
+                    <td>
+                        <a href="/updateorder/{{rows.OrderID}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{rows.OrderID}}">Edit</a>
+                    </td>
+                </tr>
+                <div id="modaledit{{rows.OrderID}}" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please Update Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url_for('updateorder')}}" method="POST">
+                        <div class="form-group">
+                            <label>OrderID:</label>
+                            <input type="text" class="form-control" name="OrderID" value="{{rows.OrderID}}">
+                        </div>
+                        <div class="form-group">
+                            <label>CustomerID:</label>
+                            <input type="text" class="form-control" name="CustomerID" value="{{rows.CustomerID}}">
+                        </div>
+                        <div class="form-group">
+                            <label>EmployeeID:</label>
+                            <input type="text" class="form-control" name="EmployeeIDName" value="{{rows.EmployeeID}}">
+                        </div>
+                        <div class="form-group">
+                            <label>OrderDate:</label>
+                            <input type="text" class="form-control" name="OrderDate" value="{{rows.OrderDate}}">
+                        </div>
+                        <div class="form-group">
+                            <label>RequiredDate:</label>
+                            <input type="text" class="form-control" name="RequiredDate" value="{{rows.RequiredDate}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShippedDate:</label>
+                            <input type="text" class="form-control" name="ShippedDate" value="{{rows.ShippedDate}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipVia:</label>
+                            <input type="text" class="form-control" name="ShipVia" value="{{rows.ShipVia}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Freight:</label>
+                            <input type="text" class="form-control" name="Freight" value="{{rows.Freight}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipName:</label>
+                            <input type="text" class="form-control" name="ShipName" value="{{rows.ShipName}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipAddress:</label>
+                            <input type="text" class="form-control" name="ShipAddress" value="{{rows.ShipAddress}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipCity:</label>
+                            <input type="text" class="form-control" name="ShipCity" value="{{rows.ShipCity}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipRegion:</label>
+                            <input type="text" class="form-control" name="ShipRegion" value="{{rows.ShipRegion}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipPostalCode:</label>
+                            <input type="text" class="form-control" name="ShipPostalCode" value="{{rows.ShipPostalCode}}">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipCountry:</label>
+                            <input type="text" class="form-control" name="ShipCountry" value="{{rows.ShipCountry}}">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Update Data</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please Insert Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url_for('insertorder')}}" method="POST">
+                        <div class="form-group">
+                            <label>OrderID:</label>
+                            <input type="text" class="form-control" name="OrderID">
+                        </div>
+                        <div class="form-group">
+                            <label>CustomerID:</label>
+                            <input type="text" class="form-control" name="CustomerID">
+                        </div>
+                        <div class="form-group">
+                            <label>EmployeeID:</label>
+                            <input type="text" class="form-control" name="EmployeeID">
+                        </div>
+                        <div class="form-group">
+                            <label>OrderDate:</label>
+                            <input type="text" class="form-control" name="OrderDate">
+                        </div>
+                        <div class="form-group">
+                            <label>RequireDate:</label>
+                            <input type="text" class="form-control" name="RequireDate">
+                        </div>
+                        <div class="form-group">
+                            <label>ShippedDate:</label>
+                            <input type="text" class="form-control" name="ShippedDate">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipVia:</label>
+                            <input type="text" class="form-control" name="ShipVia">
+                        </div>
+                        <div class="form-group">
+                            <label>Freight:</label>
+                            <input type="text" class="form-control" name="Freight">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipName:</label>
+                            <input type="text" class="form-control" name="ShipName">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipAddress:</label>
+                            <input type="text" class="form-control" name="ShipAddress">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipCity:</label>
+                            <input type="text" class="form-control" name="ShipCity">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipRegion:</label>
+                            <input type="text" class="form-control" name="ShipRegion">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipPostalCode:</label>
+                            <input type="text" class="form-control" name="ShipPostalCode">
+                        </div>
+                        <div class="form-group">
+                            <label>ShipCountry:</label>
+                            <input type="text" class="form-control" name="ShipCountry">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Add Data</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
